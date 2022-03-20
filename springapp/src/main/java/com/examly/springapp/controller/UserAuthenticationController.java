@@ -5,11 +5,13 @@ import com.examly.springapp.entity.User;
 import com.examly.springapp.service.ApplicationUserDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @AllArgsConstructor
 public class UserAuthenticationController {

@@ -25,13 +25,16 @@ import java.util.stream.Collectors;
 public class JwtTokenVerifierFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authorizationHeader = request.getHeader("Authorization");
-        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")){
-            filterChain.doFilter(request,response);
-        }
-
         try{
+            String authorizationHeader = request.getHeader("Authorization");
+            if(Strings.isNullOrEmpty(authorizationHeader)){
+                filterChain.doFilter(request,response);
+                return;
+            }
             String token = authorizationHeader.replace("Bearer ","");
+            if (!authorizationHeader.startsWith("Bearer ")){
+                filterChain.doFilter(request,response);
+            }
             String key = "securekeysecurekeysecurekeysecurekeysecurekeysecurekeysecurekeysecurekey";
 
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(key.getBytes()))

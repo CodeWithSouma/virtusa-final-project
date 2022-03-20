@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @AllArgsConstructor
 public class VehicleController {
@@ -21,7 +22,6 @@ public class VehicleController {
     	try {
              vehicleService.addVehicle(vehicle);
         }catch (Exception exception){
-        	System.out.println(exception);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,exception.getMessage());
             
         }

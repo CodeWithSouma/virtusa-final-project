@@ -1,15 +1,37 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
 import { RailContext } from "./context/context";
-// import '../index.css';
+import { signupApi } from "../api/api";
+import { Link, useNavigate } from "react-router-dom";
+
 const Signup = () => {
-  // const[usertype,setUserType]=useState("");
-  // const[emailsignup,setEmailSignup]=useState("");
-  // const[usernameSignup,setUsernameSignUp]=useState("");
-  // const[mobileSignup,setMobileSignup]=useState("");
-  // const[passwordsignup,setPasswordSignup]=useState("");
-  // const[cpassword,setCpassword]=useState("");
+  const navigate = useNavigate();
+
+  const [usertype, setUserType] = useState("");
+  const [emailsignup, setEmailSignup] = useState("");
+  const [usernameSignup, setUsernameSignUp] = useState("");
+  const [mobileSignup, setMobileSignup] = useState("");
+  const [passwordsignup, setPasswordSignup] = useState("");
+  const [cpassword, setCpassword] = useState("");
   const { signup, signupHandle } = useContext(RailContext);
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    const obj = {
+      email: emailsignup,
+      password: passwordsignup,
+      name: usernameSignup,
+      mobileNumber: mobileSignup,
+      userRole: usertype,
+    };
+    const response = await signupApi(obj);
+    console.log(response);
+    if (response.data === "Admin added" || response.data === "User added") {
+      navigate("/login");
+    } else {
+      console.log(response.data);
+    }
+  };
+
   return (
     <div
       className="container d-flex justify-content-center align-items-center"
@@ -22,9 +44,9 @@ const Signup = () => {
             <div className="mb-2">
               <input
                 id="admin/user"
-                value={signup.userType}
+                value={usertype}
                 name="userType"
-                onChange={(e) => signupHandle(e)}
+                onChange={(e) => setUserType(e.target.value)}
                 className="form-control"
                 type="text"
                 placeholder="Enter admin/user"
@@ -35,8 +57,8 @@ const Signup = () => {
               <input
                 id="email"
                 name="userSignupemail"
-                value={signup.userSignupemail}
-                onChange={(e) => signupHandle(e)}
+                value={emailsignup}
+                onChange={(e) => setEmailSignup(e.target.value)}
                 className="form-control"
                 type="email"
                 placeholder="Enter email"
@@ -47,8 +69,8 @@ const Signup = () => {
               <input
                 id="username"
                 name="usernameSignup"
-                value={signup.usernameSignup}
-                onChange={(e) => signupHandle(e)}
+                value={usernameSignup}
+                onChange={(e) => setUsernameSignUp(e.target.value)}
                 className="form-control"
                 type="text"
                 placeholder="Enter Username"
@@ -59,8 +81,8 @@ const Signup = () => {
               <input
                 id="mobileNumber"
                 name="mobileSignup"
-                value={signup.mobileSignup}
-                onChange={(e) => signupHandle(e)}
+                value={mobileSignup}
+                onChange={(e) => setMobileSignup(e.target.value)}
                 className="form-control"
                 type="text"
                 placeholder="Enter Mobilenumber"
@@ -71,8 +93,8 @@ const Signup = () => {
               <input
                 id="password"
                 name="passwordsignup"
-                value={signup.passwordsignup}
-                onChange={(e) => signupHandle(e)}
+                value={passwordsignup}
+                onChange={(e) => setPasswordSignup(e.target.value)}
                 className="form-control"
                 type="password"
                 placeholder="Enter Password"
@@ -84,7 +106,7 @@ const Signup = () => {
                 id="confirmPassword"
                 name="cpassword"
                 value={signup.cpassword}
-                onChange={(e) => signupHandle(e)}
+                onChange={(e) => setCpassword(e.target.value)}
                 className="form-control"
                 type="password"
                 placeholder="Confirm Password"
@@ -96,6 +118,7 @@ const Signup = () => {
                 type="submit"
                 id="submitButton"
                 className="btn nav-bg text-white d-block m-2"
+                onClick={(e) => handleSignup(e)}
               >
                 Submit
               </button>

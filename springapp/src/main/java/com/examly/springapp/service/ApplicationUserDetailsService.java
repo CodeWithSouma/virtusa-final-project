@@ -25,11 +25,15 @@ public class ApplicationUserDetailsService implements UserDetailsService {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("this email id %s is not registered", email)) );
     }
+    public  User loadUserRole(String email) throws  UsernameNotFoundException{
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("this email id %s is not registered", email)) );
+    }
 
     public String register(User user){
         boolean emailExist = userRepository.findByEmail(user.getEmail()).isPresent();
-        if (emailExist) throw new IllegalStateException("this email is already registered");
-        if(!validUserRole(user.getUserRole())) throw new IllegalStateException("user role not valid");
+        if (emailExist) return "this email is already registered";
+        if(!validUserRole(user.getUserRole())) return "user role not valid";
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return capitalize(user.getUserRole())+" added";

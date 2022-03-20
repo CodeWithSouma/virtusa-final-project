@@ -1,17 +1,35 @@
 import React, { useState, useContext } from "react";
 import { RailContext } from "./context/context";
 import { Link, useNavigate } from "react-router-dom";
+import { loginApi } from "../api/api";
 
 const Login = (props) => {
-  const { user } = useContext(RailContext);
+  const { user, setUser } = useContext(RailContext);
   const [loginemail, setLoginEmail] = useState("");
   const [loginpassword, setLoginPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const response = user.userType;
-    if (response === "admin") {
+    const obj = {
+      email: loginemail,
+      password: loginpassword,
+    };
+    const response = await loginApi(obj);
+    await setUser({
+      userType: response.data.userRole,
+      email: response.data.email,
+      firstName: "",
+      lastName: "",
+      mobilenumber: "",
+      age: "",
+      gender: "",
+      loggedIn: true,
+      token: response.data.userToken,
+    });
+    window.localStorage.setItem("userToken", response.data.userToken);
+    console.log(response.data);
+    if (response.data.userRole.toLowerCase() === "admin") {
       navigate("/admin/dashboard");
     } else {
       navigate("/user/dashboard");
