@@ -6,7 +6,7 @@ import AddBooking from "../components/user_components/AddBooking"
 import AdminDashboard from "../components/admin_components/Dashboard";
 import UserDashboard from "../components/user_components/Dashboard";
 import AddVehicle from "../components/admin_components/AddVehicle";
-import EditVehicle from "../components/admin_components/EditVehicle";
+import UpdateVehicle from "../components/admin_components/UpdateVehicle";
 import ProtectedRoutes from "./ProtectedRoute";
 import Error from "../components/Error";
 
@@ -18,7 +18,7 @@ const Navigation = () => {
       <Route path="/admin" element={<ProtectedRoutes />}>
         <Route index path="dashboard" element={<AdminDashboard />} />
         <Route path="addvehicle" element={<AddVehicle />} />
-        <Route path="editvehicle" element={<EditVehicle />} />
+        <Route path="editvehicle" element={<UpdateVehicle />} />
       </Route>
       <Route path="/user" element={<ProtectedRoutes />}>
         <Route index path="dashboard" element={<UserDashboard />} />
