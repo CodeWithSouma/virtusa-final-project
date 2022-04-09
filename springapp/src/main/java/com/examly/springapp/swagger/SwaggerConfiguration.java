@@ -11,6 +11,7 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.sql.Time;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,7 +29,8 @@ public class SwaggerConfiguration {
                 .select()
                 .paths(PathSelectors.any())
                 .apis(RequestHandlerSelectors.basePackage("com.examly.springapp"))
-                .build();
+                .build()
+                .directModelSubstitute(Time.class, String.class);
     }
 
     private ApiInfo getApiInfo() {
